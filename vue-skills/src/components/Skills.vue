@@ -13,6 +13,8 @@
 
     <div v-bind:class="{ alert: showAlert, 'bold-text': showBold }">We can add multiple classes to this by separating the next value and expression with a comma</div>
 
+    <div v-bind:class="classObj">This can get out of hand, so we can set an object on the data.</div>
+  </div>
 </template>
 
 <script>
@@ -25,8 +27,10 @@ export default {
         { "skill": "Adaptability" },
         { "skill": "Front end developer" }
       ],
-      showAlert: true,
-      showBold: true
+      classObj: {
+        alert: true,
+        "bold-text": true
+      }
     }
   }
 }
