@@ -1,22 +1,19 @@
 <template>
   <div class="hello">
     <div class="holder">
+    <form @submit.prevent="addSkill">
+      <input type="text" placeholder="Enter your skill here" v-model="skill">
+    </form>
       <ul>
-        <li v-for="(data, index) in skills" :key=index> {{ index }}. {{ data.skill }}</li>
+        <li v-for="(data, index) in skills" :key=index>{{ data.skill }}</li>
       </ul>
+      <p>These are the skills that I possess</p>
     </div>
 
     <p v-if="skills.length > 1">I have more than one skill</p>
     <p v-else="skills.length <= 1">I have one or no skills</p>
-
-    <div v-bind:class="{ alert: showAlert }">v-bind:[this is the attribute]="{this is the value: and this is the condition}"</div>
-
-    <div v-bind:class="{ alert: showAlert, 'bold-text': showBold }">We can add multiple classes to this by separating the next value and expression with a comma</div>
-
-    <div v-bind:class="classObj">This can get out of hand, so we can set an object on the data.</div>
-
-    <div v-bind:style="{backgroundColor: bgColor, width: bgWidth, height: bgHeight }">V-bind can also be applied to style, and values can be pulls from properties stored in data</div>
-  </div>
+    </div>
+</div>
 </template>
 
 <script>
@@ -24,14 +21,19 @@ export default {
   name: 'Skills',
   data() {
     return {
+      skill:'',
       skills: [
         { "skill": "Learning new concepts fast" },
         { "skill": "Adaptability" },
         { "skill": "Front end developer" }
-      ],
-      bgColor: 'grey',
-      bgWidth: '100px',
-      bgHeight: '200px'
+      ]
+    }
+  },
+  methods: {
+    addSkill() {
+      console.log('hello');
+      this.skills.push({"skill": this.skill});
+      this.skill='';
     }
   }
 }
@@ -39,26 +41,32 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+.holder {
+   background: #fff;
+ }
 
-.alert {
-  background-color: yellow;
-}
+ ul {
+   margin: 0;
+   padding: 0;
+   list-style-type: none;
+ }
 
-.bold-text {
-  font-weight: bold
-}
+ ul li {
+   padding: 20px;
+   font-size: 1.3em;
+   background-color: #E0EDF4;
+   border-left: 5px solid #3EB3F6;
+   margin-bottom: 2px;
+   color: #3E5252;
+ }
+
+ p {
+   text-align:center;
+   padding: 30px 0;
+   color: gray;
+ }
+
+ .container {
+   box-shadow: 0px 0px 40px lightgray;
+ }
 </style>
