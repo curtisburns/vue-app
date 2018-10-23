@@ -10,14 +10,16 @@
 
       </form>
         <ul>
-          <li v-for="(data, index) in skills" :key=index>{{ data.skill }}</li>
+          <transition-group name="list" enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutDown">
+          <li v-for="(data, index) in skills" :key=index>{{ data.skill }}<button v-on:click="removeSkill(data.skill)">x</button></li>
+           </transition-group>
         </ul>
         <p>These are the skills that I possess</p>
-      </div>
+       
+    </div>
 
       <p v-if="skills.length > 1">I have more than one skill</p>
       <p v-else >I have one or no skills</p>
-    </div>
   </div>
 </template>
 
@@ -46,7 +48,13 @@ export default {
           console.log('not valid');
         }
       });
-    }
+    },
+    removeSkill(text) {  
+      console.log(text);
+      this.skills = this.skills.filter(el => {
+         return el["skill"] !== text;
+       });  
+    } 
   }
 }
 </script>
