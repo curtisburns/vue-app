@@ -1,20 +1,22 @@
 <template>
   <div class="hello">
     <div class="holder">
-    <form @submit.prevent="addSkill">
-      <input type="text" placeholder="Enter your skill here" v-model="skill" v-validate="'min:5'" name="skill">
-      <p class="alert" v-if="errors.has('skill')">{{ errors.first('skill') }}</p>
-    </form>
-      <ul>
-        <li v-for="(data, index) in skills" :key=index>{{ data.skill }}</li>
-      </ul>
-      <p>These are the skills that I possess</p>
-    </div>
+      <form @submit.prevent="addSkill">
+        <input type="text" placeholder="Enter your skill here" v-model="skill" v-validate="'min:5'" name="skill">
+        <transition name="alert-in">
+        <p class="alert" v-if="errors.has('skill')">{{ errors.first('skill') }}</p>
+        </transition>
+      </form>
+        <ul>
+          <li v-for="(data, index) in skills" :key=index>{{ data.skill }}</li>
+        </ul>
+        <p>These are the skills that I possess</p>
+      </div>
 
-    <p v-if="skills.length > 1">I have more than one skill</p>
-    <p v-else="skills.length <= 1">I have one or no skills</p>
+      <p v-if="skills.length > 1">I have more than one skill</p>
+      <p v-else >I have one or no skills</p>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
@@ -33,8 +35,15 @@ export default {
   methods: {
     addSkill() {
       console.log('hello');
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          console.log(result);
       this.skills.push({"skill": this.skill});
       this.skill='';
+        } else {
+          console.log('not valid');
+        }
+      });
     }
   }
 }
@@ -87,4 +96,25 @@ export default {
    padding: 5px;
    margin-top: -20px;
  }
+
+  .alert-in-enter-active {
+   animation: bounce-in .5s;
+ }
+
+ .alert-in-leave-active {
+   animation: bounce-in .5s reverse;
+ }
+
+@keyframes bounce-in {
+  0% {
+     transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 </style>
