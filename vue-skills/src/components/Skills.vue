@@ -11,7 +11,7 @@
       </form>
         <ul>
           <transition-group name="list" enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutDown">
-          <li v-for="(data, index) in skills" :key=index>{{ data.skill }}<button v-on:click="removeSkill(data.skill)">x</button></li>
+          <li v-for="(data, index) in skills" :key=index>{{ data.skill }}<i class="fa fa-minus-circle" v-on:click="remove(index)"></i></li>
            </transition-group>
         </ul>
         <p>These are the skills that I possess</p>
@@ -49,11 +49,8 @@ export default {
         }
       });
     },
-    removeSkill(text) {  
-      console.log(text);
-      this.skills = this.skills.filter(el => {
-         return el["skill"] !== text;
-       });  
+    remove(id) {  
+      this.skills.splice(id,1);
     } 
   }
 }
@@ -63,6 +60,7 @@ export default {
 <style scoped>
 
 @import "https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css";
+@import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css";
 
 .holder {
    background: #fff;
@@ -129,5 +127,11 @@ export default {
     transform: scale(1);
   }
 }
+
+i {
+  float: right;
+  cursor: pointer;
+}
+
 
 </style>
