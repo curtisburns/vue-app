@@ -1,13 +1,12 @@
 <template>
     <header>
-        <div class="hero-container">
+        <div class="hero-container" ref="hero-container">
             <div class="hero-bg">
             </div>
             <div class="hero-fg">
-                    <!-- <img src="../assets/astronaut copy.png" alt=""> -->
             </div>
-            <h1 class="letsTalk">Let's talk</h1>
-            <h1 class="space">Space</h1>
+            <h1 class="letsTalk" :style="{transform: 'translateY(' + letsTalkYPos + 'px) translateX(-120%)'}"> Let's talk</h1>
+            <h1 class="space" :style="{transform: 'translateY(' + spaceYPos + 'px) translateX(-50%)'}">Space</h1>
         </div>
     </header>
 </template>
@@ -18,13 +17,28 @@ export default {
     name: 'Landing-Hero',
     data() {
         return {
-            imgUrl1: '../assets/astronaut.jpg'
+            letsTalkYPos: 0,
+            spaceYPos: 0
         }
+    },
+    methods: {
+        parallaxTitles() {
+        const top = this.$refs["hero-container"].getBoundingClientRect().top;
+        this.letsTalkYPos = top/10;
+        this.spaceYPos = -top/30;
+        }
+
+    },
+    created() {
+        window.addEventListener('scroll', this.parallaxTitles)
+    },
+    destroyed() {
+        window.removeEventListener('scroll', this.parallaxTitles)
     }
 }
 </script>
 
-<style scoped>
+<style>
     .hero-container {
         width: 100vw;
         height: 100vh;
@@ -38,7 +52,7 @@ export default {
         left: 0;
         min-width: 100%;
         min-height: 100%;
-        background: url(../assets/astronaut.jpg) right center/cover no-repeat;
+        background: url(../assets/astronaut.jpg) right top/cover no-repeat;
         z-index: 0;
     }
 
@@ -48,7 +62,7 @@ export default {
         left: 0;
         min-width: 100%;
         min-height: 100%;
-        background: url('../assets/astronaut copy.png') right center/cover no-repeat;
+        background: url('../assets/astronaut copy.png') right top/cover no-repeat;
         z-index: 2;
     }
 
@@ -56,20 +70,21 @@ export default {
         font-family: 'Roboto Condensed', sans-serif;
         position: absolute;
         text-transform: uppercase;
-        font-size: 140px;
         color: #FFF;
+        -webkit-backface-visibility: hidden;
     }
 
     h1.letsTalk {
-        right: 600px;
+        right: 0;
         z-index: 3;
-        top: 25vh
+        top: 28vh;
+        font-size: 9vw;
     }
 
      h1.space {
         top: 20vh;
-        font-size: 120px;
-        right: 130px;
+        font-size: 9vw;
+        right: 0;
         z-index: 1;
         color: #FFFFFF80
     }

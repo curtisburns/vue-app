@@ -1,7 +1,7 @@
 <template>
     <nav>
         <ul>
-            <li><span></span> <a>Explore the gallaxy</a> </li>
+            <li><span class="line-container"><span class="line"></span></span> <a>Explore the gallaxy.</a> </li>
         </ul>
     </nav>  
 </template>
@@ -14,7 +14,9 @@ export default {
 </script>
 <style scoped>
     nav {
-        position: relative;
+        width: 100%;
+        position: absolute;
+        top: 0;
         z-index: 99;
     }
 
@@ -24,7 +26,7 @@ export default {
         margin-block-start: 0;
         padding-inline-end: 0;
         padding-inline-start: 0;
-        padding-top: 5px;
+        padding-top: 1vh;
     }
 
     ul li {
@@ -32,21 +34,51 @@ export default {
         width: 50%;
         list-style: none;
         text-align: right;
+        white-space: nowrap;
     }
 
     ul li a {
         color: #FFFFFF80;
         width: 30%;
+        white-space: nowrap;
+        font-size: 1.4vw;
+        cursor: pointer;
     }
 
-    span {
-        margin-right: 10px;
+    .line-container {
         width: 70%;
+        position: relative;
         display: inline-block;
-        border-top: 1px #FFFFFF80 solid;
-        height: .3em;
+        margin-right: 2vw;
     }
 
+    .line {
+        transform: translateY(-450%);
+        width: 0%;
+        display: inline-block;
+        border-top: .1vw #FFFFFF80 solid;
+        position: absolute;
+        left: 0;
+        animation: caterpillar 3s infinite ease-in-out
+    }
+
+    @keyframes caterpillar {
+        10% {
+            width: 0%;
+        }
+
+        20% {
+            width: 100%;
+        }
+        80% {
+            width: 100%;
+        }
+        100% {
+            left: auto;
+            right: 0;
+            width: 0%;
+        }
+    }
 
 
 </style>
