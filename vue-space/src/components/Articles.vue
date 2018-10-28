@@ -8,7 +8,8 @@
                 <span @click="gridView" :class="['grid-view', view === 'grid' ? 'active' : 'inactive']"><img src="../assets/grid-view.png" alt="grid-view"/></span>
             </div>
         <div :class="['article-container', view === 'grid' ? 'article-container-grid' : '']">
-            <article v-for="(article, index) in articles" :key=index :class="[view === 'list' ? 'article-card-list' : 'article-card-grid']">
+            <div v-for="(article, index) in searchedArticles" :key=index :class="[view === 'list' ? 'article-card-list' : 'article-card-grid']">
+            <article :class="[view === 'list' ? 'article-card-list' : 'article-card-grid']">
                 <img :src="article.imgUrl" alt="">
                 <div class="article-text">
                     <h3>{{ article.title }}</h3>
@@ -17,6 +18,7 @@
                     <p>{{ article.shortText }}</p>
                 </div>
             </article>
+            </div>
         </div>
             
         </div>
@@ -66,8 +68,21 @@ export default {
                     title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
                     datePosted: 'October 24, 2018 | Article | 12 min read',
                     shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/bluerock.png'),
+                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
+                    datePosted: 'October 24, 2018 | Article | 12 min read',
+                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/bluerock.png'),
+                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
+                    datePosted: 'October 24, 2018 | Article | 12 min read',
+                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
                 }
-            ]
+            ],
+            searchedArticles: []
         }
     },
     methods: {
@@ -79,6 +94,11 @@ export default {
             this.view = "list"
             console.log(this.view);
         }
+    },
+    watch() {
+        searchString: function(string) {
+            this.searchedArticles = this.articles.filter(article => article.title.toLowerCase().includes(string.toLowerCase()));
+        }
     }
 }
 </script>
@@ -88,6 +108,7 @@ export default {
     section.articles {
         background: #000;
         text-align: left;
+        min-height: 1400px;
     }
 
     .articles-heading {
@@ -132,20 +153,31 @@ export default {
         flex-flow: row wrap;
     }
 
-    .article-card-list {
+    div.article-card-list {
+        display: flex;
+        flex-flow: row nowrap;
+        padding: 10px 0;
+        box-sizing: border-box;
+    }
+
+    div.article-card-grid {
+        padding: 10px 0;
+        width: 33%;
+        box-sizing: border-box;
+    }
+
+    article.article-card-list {
         background: #FFF;
         display: flex;
         flex-flow: row nowrap;
         padding: 10px;
-        margin-bottom: 20px;
         box-sizing: border-box;
     }
 
-    .article-card-grid {
+    article.article-card-grid {
         background: #FFF;
         padding: 10px;
-        margin: 20px;
-        width: 25%;
+        width: 95%;
         box-sizing: border-box;
     }
 
@@ -154,8 +186,12 @@ export default {
         display: inline-block;
     }
 
-    article img {
+    article.article-card-list img {
         max-height: 140px;
+    }
+
+    article.article-card-grid img {
+        width: 100%;
     }
 
     .article-text {
@@ -167,13 +203,25 @@ export default {
         margin-bottom: 5px;
     }
 
+    article.article-card-grid h3 {
+        font-size: .9em;
+    }
+
     h4 {
         line-height: 1.6em;
         font-size: .9em;
     }
 
+     article.article-card-grid h4 {
+        font-size: .7em;
+    }
+
     p {
         font-size: .9em;
+    }
+
+    article.article-card-grid p {
+        font-size: .7em;
     }
 
     .list-view, .grid-view {
