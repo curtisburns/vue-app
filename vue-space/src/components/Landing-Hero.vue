@@ -6,7 +6,7 @@
             <div class="hero-fg">
             </div>
             <h1 class="letsTalk" :style="{transform: 'translateY(' + letsTalkYPos + 'px) translateX(-120%)'}"> Let's talk</h1>
-            <h1 class="space" :style="{transform: 'translateY(' + spaceYPos + 'px) translateX(-50%)'}">Space</h1>
+            <h1 class="space" :style="{transform: 'translateY(' + spaceYPos + 'px) translateX(-40%)'}">Space.</h1>
         </div>
     </header>
 </template>
@@ -72,6 +72,7 @@ export default {
         text-transform: uppercase;
         color: #FFF;
         -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
     }
 
     h1.letsTalk {

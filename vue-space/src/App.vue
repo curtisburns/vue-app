@@ -36,7 +36,7 @@ body {
   color: #2c3e50;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, p {
   margin-block-start: 0em;
   margin-block-end: 0em;
 }
