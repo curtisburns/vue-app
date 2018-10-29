@@ -93,12 +93,22 @@ export default {
         listView() {
             this.view = "list"
             console.log(this.view);
+        },
+        initArticles() {
+            if (!this.searchedString) {
+                this.searchedArticles = this.articles;
+            }
         }
     },
-    watch() {
+    watch: {
         searchString: function(string) {
+            console.log(string);
             this.searchedArticles = this.articles.filter(article => article.title.toLowerCase().includes(string.toLowerCase()));
+            console.log(this.searchedArticles);
         }
+    },
+    mounted() {
+        this.initArticles();
     }
 }
 </script>
