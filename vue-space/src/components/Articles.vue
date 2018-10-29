@@ -7,19 +7,23 @@
                 <span @click="listView" :class="['list-view', view === 'list' ? 'active' : 'inactive']"><img src="../assets/list-view.png" alt="list-view"/></span>
                 <span @click="gridView" :class="['grid-view', view === 'grid' ? 'active' : 'inactive']"><img src="../assets/grid-view.png" alt="grid-view"/></span>
             </div>
-        <div :class="['article-container', view === 'grid' ? 'article-container-grid' : '']">
-            <div v-for="(article, index) in searchedArticles" :key=index :class="[view === 'list' ? 'article-card-list' : 'article-card-grid']">
-            <article :class="[view === 'list' ? 'article-card-list' : 'article-card-grid']">
-                <img :src="article.imgUrl" alt="">
-                <div class="article-text">
-                    <h3>{{ article.title }}</h3>
-                    <h4>{{ article.datePosted }}</h4>
-                    <hr />
-                    <p>{{ article.shortText }}</p>
+       
+
+            <p v-if='searchString && !searchedArticles.length' class="no-results">No results for ' {{searchString}} '</p>
+            <transition-group name="changeView" tag="div" :class="['article-container', view === 'grid' ? 'article-container-grid' : '']">
+                <div v-for="(article, index) in searchedArticles" :key=index :class="[view === 'list' ? 'article-card-list' : 'article-card-grid']">
+                    <article :class="[view === 'list' ? 'article-card-list' : 'article-card-grid']">
+                        <img :src="article.imgUrl" alt="">
+                        <div class="article-text">
+                            <h3>{{ article.title }}</h3>
+                            <h4>{{ article.datePosted }}</h4>
+                            <hr />
+                            <p>{{ article.shortText }}</p>
+                        </div>
+                    </article>
                 </div>
-            </article>
-            </div>
-        </div>
+            </transition-group>
+      
             
         </div>
     </section>
@@ -276,7 +280,22 @@ export default {
         transition: all .4s;
     }
 
+    .no-results {
+        font-size: 1.2em;
+        color: #FFF;
+    }
 
+    .changeView-move {
+        transition: transform 1s;
+    }
+    /* for when I add pages will need testing */
+    .changeView-leave-active {
+        opacity: 0;
+    }
+
+    .changeView-enter-active {
+        opacity: 1;
+    }
 
 
 </style>
