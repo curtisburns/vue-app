@@ -9,9 +9,9 @@
             </div>
        
 
-            <p v-if='searchString && !searchedArticles.length' class="no-results">No results for ' {{searchString}} '</p>
+            <p v-if='searchString && !pageOfArticles.length' class="no-results">No results for ' {{searchString}} '</p>
             <transition-group name="changeView" tag="div" :class="['article-container', view === 'grid' ? 'article-container-grid' : '']">
-                <div v-for="(article, index) in searchedArticles" :key=index :class="[view === 'list' ? 'article-card-list' : 'article-card-grid']">
+                <div v-for="(article, index) in pageOfArticles" :key=index :class="[view === 'list' ? 'article-card-list' : 'article-card-grid', pageTurn && 'turning']">
                     <article :class="[view === 'list' ? 'article-card-list' : 'article-card-grid']">
                         <img :src="article.imgUrl" alt="">
                         <div class="article-text">
@@ -23,8 +23,10 @@
                     </article>
                 </div>
             </transition-group>
-      
-            
+
+            <div class="page-number-container">
+                <a v-for="(page, index) in numberOfPages" :key=index @click="selectPage" :class="{'highlight': highlightPageNumber(page)}">{{ page }}</a>
+            </div>
         </div>
     </section>
 </template>
@@ -44,10 +46,10 @@ export default {
                     shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
                 },
                 {   
-                    imgUrl: require('../assets/bluerock.png'),
-                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
-                    datePosted: 'October 24, 2018 | Article | 12 min read',
-                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
                 },
                 {   
                     imgUrl: require('../assets/bluerock.png'),
@@ -56,10 +58,10 @@ export default {
                     shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
                 },
                 {   
-                    imgUrl: require('../assets/bluerock.png'),
-                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
-                    datePosted: 'October 24, 2018 | Article | 12 min read',
-                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
                 },
                 {   
                     imgUrl: require('../assets/bluerock.png'),
@@ -68,10 +70,10 @@ export default {
                     shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
                 },
                 {   
-                    imgUrl: require('../assets/bluerock.png'),
-                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
-                    datePosted: 'October 24, 2018 | Article | 12 min read',
-                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
                 },
                 {   
                     imgUrl: require('../assets/bluerock.png'),
@@ -80,39 +82,257 @@ export default {
                     shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
                 },
                 {   
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
+                },
+                {   
                     imgUrl: require('../assets/bluerock.png'),
                     title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
                     datePosted: 'October 24, 2018 | Article | 12 min read',
                     shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
+                },
+                 {   
+                    imgUrl: require('../assets/bluerock.png'),
+                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
+                    datePosted: 'October 24, 2018 | Article | 12 min read',
+                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
+                },
+                {   
+                    imgUrl: require('../assets/bluerock.png'),
+                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
+                    datePosted: 'October 24, 2018 | Article | 12 min read',
+                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
+                },
+                {   
+                    imgUrl: require('../assets/bluerock.png'),
+                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
+                    datePosted: 'October 24, 2018 | Article | 12 min read',
+                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
+                },
+                {   
+                    imgUrl: require('../assets/bluerock.png'),
+                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
+                    datePosted: 'October 24, 2018 | Article | 12 min read',
+                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
+                },
+                {   
+                    imgUrl: require('../assets/bluerock.png'),
+                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
+                    datePosted: 'October 24, 2018 | Article | 12 min read',
+                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
+                },
+                {   
+                    imgUrl: require('../assets/bluerock.png'),
+                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
+                    datePosted: 'October 24, 2018 | Article | 12 min read',
+                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
+                },
+                {   
+                    imgUrl: require('../assets/bluerock.png'),
+                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
+                    datePosted: 'October 24, 2018 | Article | 12 min read',
+                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
+                },
+                {   
+                    imgUrl: require('../assets/bluerock.png'),
+                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
+                    datePosted: 'October 24, 2018 | Article | 12 min read',
+                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
+                },
+                {   
+                    imgUrl: require('../assets/bluerock.png'),
+                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
+                    datePosted: 'October 24, 2018 | Article | 12 min read',
+                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
+                },
+                {   
+                    imgUrl: require('../assets/bluerock.png'),
+                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
+                    datePosted: 'October 24, 2018 | Article | 12 min read',
+                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
+                },
+                {   
+                    imgUrl: require('../assets/bluerock.png'),
+                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
+                    datePosted: 'October 24, 2018 | Article | 12 min read',
+                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
+                },
+                {   
+                    imgUrl: require('../assets/bluerock.png'),
+                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
+                    datePosted: 'October 24, 2018 | Article | 12 min read',
+                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
+                },
+                {   
+                    imgUrl: require('../assets/bluerock.png'),
+                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
+                    datePosted: 'October 24, 2018 | Article | 12 min read',
+                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
+                },
+                {   
+                    imgUrl: require('../assets/bluerock.png'),
+                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
+                    datePosted: 'October 24, 2018 | Article | 12 min read',
+                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
+                },
+                {   
+                    imgUrl: require('../assets/bluerock.png'),
+                    title: 'Bizarre, Blue Space Rock Even Weirder Than Astronomers Thought',
+                    datePosted: 'October 24, 2018 | Article | 12 min read',
+                    shortText: 'A bizarre, blue asteroid that acts like a comet and appears to be responsible for the annual Geminid meteor shower made a close flyby of Earth last year, giving astronomers an opportunity to study the object in unprecedented detail.'
+                },
+                {   
+                    imgUrl: require('../assets/nebula.png'),
+                    title: 'Space Pirates Take Warning: This \'Skull and Crossbones Nebula\' Is Full of Gas and Baby Stars',
+                    datePosted: 'October 24, 2018 | Article | 15 min read',
+                    shortText: 'The constellation NGC 2467 looks like a skull and crossbones.'
                 }
+               
             ],
-            searchedArticles: []
+            searchedArticles: [],
+            articlesPerPage: 6,
+            currentPage: 1,
+            pageTurn: ''
         }
     },
     methods: {
         gridView() {
             this.view = "grid"
-            console.log(this.view);
         },
         listView() {
             this.view = "list"
-            console.log(this.view);
         },
         initArticles() {
             if (!this.searchedString) {
                 this.searchedArticles = this.articles;
             }
+        },
+        selectPage({target: { innerText }} ) {
+            if (innerText !== this.currentPage) {
+                this.pageTurn = 'turning';
+                setTimeout(() => {
+                    this.currentPage = innerText;
+                    this.pageTurn = '';
+                }, 400);
+            }
+        },
+        highlightPageNumber: function(page) {
+            return page === parseInt(this.currentPage,10);
         }
     },
     watch: {
         searchString: function(string) {
-            console.log(string);
             this.searchedArticles = this.articles.filter(article => article.title.toLowerCase().includes(string.toLowerCase()));
-            console.log(this.searchedArticles);
         }
     },
     mounted() {
         this.initArticles();
+    },
+    computed: {
+        pageOfArticles: function() {
+            const startingIndex = (this.currentPage - 1) * this.articlesPerPage;
+            return this.searchedArticles.slice(startingIndex, (this.articlesPerPage + startingIndex));
+        },
+        numberOfPages: function() {
+            const count = Math.ceil(this.searchedArticles.length / this.articlesPerPage);
+            const pages = [];
+            for (let i = 1; i <= count; i++) {
+                pages.push(i);
+            }
+            return pages;
+        }
     }
 }
 </script>
@@ -120,9 +340,21 @@ export default {
 <style scoped>
 
     section.articles {
+        position: relative;
         background: #000;
         text-align: left;
-        min-height: 1400px;
+        min-height: 1300px;
+        background: url('../assets/article-background.jpg') center center/cover no-repeat;
+    }
+
+    section.articles::after {
+        content: ' ';
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(top, #000000 0%, #00000090 90%, #00000050 100%);
+        position: absolute;
+        top: 0;
+        z-index: 0;
     }
 
     .articles-heading {
@@ -130,6 +362,8 @@ export default {
         color: #FFF;
         padding: 20px 0;
         text-transform: uppercase;
+        position: relative;
+        z-index: 2;
     }
 
     .input-container {
@@ -149,7 +383,7 @@ export default {
         padding: 0 10px;
         box-shadow: #00000050 10px 0 10px;
         position: relative;
-        z-index: 2;
+        z-index: 3;
         color: #0E0E0E;
     }
 
@@ -160,11 +394,15 @@ export default {
 
     .article-container {
         width:100%;
+        min-height: 1080px;
+        position: relative;
+        z-index: 1;
     }
 
     .article-container-grid {
         display: flex;
         flex-flow: row wrap;
+        min-height: 840px;
     }
 
     div.article-card-list {
@@ -178,6 +416,7 @@ export default {
         padding: 10px 0;
         width: 33%;
         box-sizing: border-box;
+        
     }
 
     article.article-card-list {
@@ -193,6 +432,7 @@ export default {
         padding: 10px;
         width: 95%;
         box-sizing: border-box;
+        min-height: 400px;
     }
 
     hr {
@@ -266,7 +506,7 @@ export default {
         width: 11%;
         background: #FFF;
         position: absolute;
-        z-index: 1;
+        z-index: 2;
         opacity: .8;
         transition: all .4s;
     }
@@ -275,7 +515,7 @@ export default {
         width: 20%;
         background: #FFF;
         position: absolute;
-        z-index: 0;
+        z-index: 1;
         opacity: .5;
         transition: all .4s;
     }
@@ -288,14 +528,33 @@ export default {
     .changeView-move {
         transition: transform 1s;
     }
-    /* for when I add pages will need testing */
-    .changeView-leave-active {
-        opacity: 0;
+
+    .page-number-container {
+        text-align: center;
+        transition: all .4s;
+        position: relative;
+        z-index: 1;
+        background: #00000080;
     }
 
-    .changeView-enter-active {
-        opacity: 1;
+    .page-number-container a{
+        margin: 0 5px;
+        color: #FFFFFF80;
+        cursor: pointer;
+        font-size: 1.2em;
     }
+
+    .turning {
+        transition: all .4s;
+        transform: translateX(-2000px);
+    }
+
+    .page-number-container a.highlight, a:hover {
+        color: #FFF;
+    }
+
+    
+
 
 
 </style>

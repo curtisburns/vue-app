@@ -1,7 +1,7 @@
 <template>
     <nav>
         <ul>
-            <li><span class="line-container"><span class="line"></span></span> <a>Explore the gallaxy.</a> </li>
+            <li><span class="line-container"><span class="line"></span></span> <a>Explore the galaxy.</a> </li>
         </ul>
     </nav>  
 </template>
